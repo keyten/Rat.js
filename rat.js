@@ -21,19 +21,19 @@ Rat.Path = function(opt, style, context){
     Rat.init(this, arguments);
 };
 Rat.Path.prototype = {
-    draw: function(){
+    draw: function(ctx){
         this.process(function(ctx){
             if(this.style.fillStyle)
                 ctx.fill();
             if(this.style.strokeStyle)
                 ctx.stroke();
-        });
+        }, ctx);
     },
-    isPointIn: function(x,y){
-        return this.process(function(ctx){ return ctx.isPointInPath(x, y) });
+    isPointIn: function(x,y, ctx){
+        return this.process(function(ctx){ return ctx.isPointInPath(x, y) }, ctx);
     },
-    process: function(callback){
-        var ctx = this.context.context;
+    process: function(callback, ctx){
+        ctx = ctx || this.context.context;
         Rat.style(ctx, this.style);
         ctx.beginPath();
         this.opt.forEach(function(func){
@@ -53,7 +53,7 @@ Rat.Image.prototype.draw = function(ctx){
     if(this.style.crop)
         ctx.drawImage.apply(ctx, [this.opt, 0, 0].concat(this.style.crop));
     else
-        ctx.drawImage(this.opt, 0, 0);
+        ctx.drawImage(this.opt, 0, 0, this.style.width || this.opt.width, this.style.height || this.opt.height);
     ctx.restore();
 };
 Rat.Text = function(){
