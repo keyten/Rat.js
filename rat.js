@@ -78,7 +78,7 @@ Rat.Text.prototype.measure = function(){
 Rat.notStyle = "translate0rotate0transform0scale".split(0);
 Rat.style = function(ctx, style){
     ctx.save();
-    style.origin && ctx.translate.apply(ctx, style.origin);
+    style.origin && ctx.translate(style.origin[0], style.origin[1]);
     style.rotate && ctx.rotate(style.rotate);
     style.scale && ctx.scale.apply(ctx, style.scale);
     style.origin && ctx.translate(-style.origin[0], -style.origin[1]);
